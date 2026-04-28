@@ -99,7 +99,7 @@ export default function ProjectDetail() {
           GitHub Webhook URL
         </p>
         <code style={{ fontSize: '0.82rem', color: 'var(--text)', fontFamily: 'monospace', wordBreak: 'break-all' }}>
-          POST https://your-domain.com/api/webhook/github
+          POST https://specwatch-backend.onrender.com/api/webhook/github
         </code>
         <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.4rem' }}>
           Add this in GitHub → Repo Settings → Webhooks. Select "push" events only.

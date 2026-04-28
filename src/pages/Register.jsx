@@ -58,7 +58,7 @@ export default function Register() {
               <label>Name</label>
               <input
                 type="text"
-                placeholder="Sharanu"
+                placeholder="Enter your name"
                 value={form.name}
                 onChange={e => setForm({ ...form, name: e.target.value })}
                 required

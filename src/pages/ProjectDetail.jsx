@@ -8,6 +8,7 @@ export default function ProjectDetail() {
   const navigate = useNavigate()
   const [project, setProject] = useState(null)
   const [history, setHistory] = useState([])
+  const [totalScans, setTotalScans] = useState(0)
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -21,6 +22,7 @@ export default function ProjectDetail() {
       const found = projects.find(p => p.id === parseInt(id))
       setProject(found)
       setHistory(historyRes.data.content || [])
+      setTotalScans(historyRes.data.totalElements || 0)
     }).catch(console.error)
       .finally(() => setLoading(false))
   }, [id])
@@ -69,7 +71,7 @@ export default function ProjectDetail() {
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
         <div className="card" style={{ flex: 1, minWidth: '140px', textAlign: 'center', padding: '1rem' }}>
           <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--accent2)' }}>
-            {history.length}
+            {totalScans}
           </div>
           <div style={{ fontSize: '0.78rem', color: 'var(--muted)', marginTop: '0.25rem' }}>Total Scans</div>
         </div>

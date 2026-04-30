@@ -21,7 +21,7 @@ export default function Register() {
         name: res.data.name,
         plan: res.data.plan,
       }, res.data.token)
-      navigate('/')
+      navigate('/dashboard')
     } catch (err) {
       setError(err.response?.data || 'Registration failed')
     } finally {

@@ -13,6 +13,7 @@ export default function AddProject() {
     branch: 'main',
     slackWebhookUrl: '',
     discordWebhookUrl: '',
+    githubToken: '',
   })
 
   const handleSubmit = async (e) => {
@@ -120,6 +121,19 @@ export default function AddProject() {
                 value={form.discordWebhookUrl}
                 onChange={e => setForm({ ...form, discordWebhookUrl: e.target.value })}
               />
+            </div>
+
+            <div className="form-group">
+              <label>GitHub Personal Access Token (optional)</label>
+              <input
+                type="password"
+                placeholder="ghp_xxxxxxxxxxxx"
+                value={form.githubToken}
+                onChange={e => setForm({ ...form, githubToken: e.target.value })}
+              />
+              <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
+                Required for private repos. Generate at GitHub → Settings → Developer Settings → Personal Access Tokens. Select 'repo' scope only.
+              </span>
             </div>
 
             {error && <p className="error-msg">{error}</p>}

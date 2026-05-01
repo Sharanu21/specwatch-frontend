@@ -101,10 +101,21 @@ export default function ProjectDetail() {
           GitHub Webhook URL
         </p>
         <code style={{ fontSize: '0.82rem', color: 'var(--text)', fontFamily: 'monospace', wordBreak: 'break-all' }}>
-  POST https://specwatch-backend.onrender.com/api/webhook/github?token=YOUR_WEBHOOK_SECRET
-</code>
-        <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.4rem' }}>
-          Add this in GitHub → Repo Settings → Webhooks. Select "push" events only.
+          POST https://specwatch-backend.onrender.com/api/webhook/github?token={project?.webhookToken || 'loading...'}
+        </code>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+          <button
+            className="btn-secondary btn-sm"
+            onClick={() => {
+              navigator.clipboard.writeText(`https://specwatch-backend.onrender.com/api/webhook/github?token=${project?.webhookToken}`)
+              alert('Copied!')
+            }}
+          >
+            Copy URL
+          </button>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.5rem' }}>
+          Go to GitHub → your repo → Settings → Webhooks → Add webhook → paste this URL → Content type: application/json → Save.
         </p>
       </div>
 

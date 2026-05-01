@@ -154,9 +154,9 @@ export default function AddProject() {
             ℹ Next step after creating
           </p>
           <p style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-            Go to your GitHub repo → Settings → Webhooks → Add webhook.<br />
-            Set Payload URL to: <code style={{ fontFamily: 'monospace', color: 'var(--text)' }}>https://your-domain.com/api/webhook/github</code><br />
-            Content type: <code style={{ fontFamily: 'monospace' }}>application/json</code> → Save.
+            After creating your project, go to GitHub → your repo → Settings → Webhooks → Add webhook.<br />
+            Your unique webhook URL will be shown on the project page — just copy and paste it.<br />
+            Content type: <code style={{ fontFamily: 'monospace' }}>application/json</code> → Events: Push only → Save.
           </p>
         </div>
       </div>

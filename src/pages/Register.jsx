@@ -10,10 +10,24 @@ export default function Register() {
   const { login } = useAuth()
   const navigate = useNavigate()
 
+  const validatePassword = (password) => {
+    if (password.length < 8) return 'Password must be at least 8 characters'
+    if (!/[A-Z]/.test(password)) return 'Password must contain at least one uppercase letter'
+    if (!/[0-9]/.test(password)) return 'Password must contain at least one number'
+    if (!/[!@#$%^&*]/.test(password)) return 'Password must contain at least one special character (!@#$%^&*)'
+    return null
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setLoading(true)
+    const passwordError = validatePassword(form.password)
+    if (passwordError) {
+      setError(passwordError)
+      setLoading(false)
+      return
+    }
     try {
       const res = await api.post('/auth/register', form)
       login({
@@ -83,6 +97,24 @@ export default function Register() {
                 onChange={e => setForm({ ...form, password: e.target.value })}
                 required
               />
+              {form.password && (
+                <div style={{ marginTop: '0.4rem' }}>
+                  {[
+                    { check: form.password.length >= 8, label: '8+ characters' },
+                    { check: /[A-Z]/.test(form.password), label: 'Uppercase letter' },
+                    { check: /[0-9]/.test(form.password), label: 'Number' },
+                    { check: /[!@#$%^&*]/.test(form.password), label: 'Special character' },
+                  ].map(item => (
+                    <div key={item.label} style={{
+                      fontSize: '0.75rem',
+                      color: item.check ? 'var(--success)' : 'var(--muted)',
+                      display: 'flex', alignItems: 'center', gap: '0.3rem',
+                    }}>
+                      {item.check ? '✓' : '○'} {item.label}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {error && <p className="error-msg">{error}</p>}

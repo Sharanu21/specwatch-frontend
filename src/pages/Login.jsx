@@ -74,6 +74,11 @@ export default function Login() {
                 required
               />
             </div>
+            <div style={{ textAlign: 'right', marginTop: '-0.8rem', marginBottom: '1rem' }}>
+              <Link to="/forgot-password" style={{ fontSize: '0.78rem', color: 'var(--accent2)' }}>
+                Forgot password?
+              </Link>
+            </div>
 
             {error && <p className="error-msg">{error}</p>}
 

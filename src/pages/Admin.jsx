@@ -43,7 +43,7 @@ export default function Admin() {
   const [search, setSearch]   = useState('')
 
   useEffect(() => {
-    if (!user?.admin) { navigate('/dashboard'); return }
+    if (!user?.isAdmin) { navigate('/dashboard'); return }
     loadAll()
   }, [])
 

@@ -15,6 +15,7 @@ import ProjectDetail from './pages/ProjectDetail'
 import AddProject from './pages/AddProject'
 import Settings from './pages/Settings'
 import NotFound from './pages/NotFound'
+import OAuthCallback from './pages/OAuthCallback'
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/verify-email" element={<VerifyEmail />} />
+              <Route path="/oauth/callback" element={<OAuthCallback />} />
 
               <Route path="/dashboard" element={
                 <ProtectedRoute>

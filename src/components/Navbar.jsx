@@ -66,6 +66,9 @@ export default function Navbar() {
           <Link to="/dashboard" style={linkStyle('/dashboard')}>Dashboard</Link>
           <Link to="/projects/add" style={linkStyle('/projects/add')}>+ Add Project</Link>
           <Link to="/settings" style={linkStyle('/settings')}>Settings</Link>
+          {user?.admin && (
+            <Link to="/admin" style={{ ...linkStyle('/admin'), color: isActive('/admin') ? '#ff4d6d' : 'rgba(255,77,109,0.7)' }}>Admin</Link>
+          )}
         </div>
 
         {/* Desktop right side */}
@@ -107,6 +110,9 @@ export default function Navbar() {
           <Link to="/dashboard" style={linkStyle('/dashboard')} onClick={() => setMenuOpen(false)}>Dashboard</Link>
           <Link to="/projects/add" style={linkStyle('/projects/add')} onClick={() => setMenuOpen(false)}>+ Add Project</Link>
           <Link to="/settings" style={linkStyle('/settings')} onClick={() => setMenuOpen(false)}>Settings</Link>
+          {user?.admin && (
+            <Link to="/admin" style={{ ...linkStyle('/admin'), color: '#ff4d6d' }} onClick={() => setMenuOpen(false)}>Admin</Link>
+          )}
           <div style={{ height: '1px', background: 'var(--border)', margin: '0.5rem 0' }} />
           <button
             onClick={handleLogout}

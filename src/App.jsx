@@ -16,6 +16,7 @@ import AddProject from './pages/AddProject'
 import Settings from './pages/Settings'
 import NotFound from './pages/NotFound'
 import OAuthCallback from './pages/OAuthCallback'
+import Admin from './pages/Admin'
 
 export default function App() {
   return (
@@ -54,6 +55,13 @@ export default function App() {
                 <ProtectedRoute>
                   <Navbar />
                   <Settings />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <Navbar />
+                  <Admin />
                 </ProtectedRoute>
               } />
 

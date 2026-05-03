@@ -25,7 +25,7 @@ export default function OAuthCallback() {
     api.get('/auth/me', {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
-      login({ email: res.data.email, name: res.data.name, plan: res.data.plan }, token)
+     login({ email: res.data.email, name: res.data.name, plan: res.data.plan, isAdmin: res.data.isAdmin }, token)
       navigate('/dashboard')
     }).catch(() => {
       toast.error('OAuth login failed. Please try again.')

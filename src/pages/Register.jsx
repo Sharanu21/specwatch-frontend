@@ -78,7 +78,7 @@ export default function Register() {
     setLoading(true)
     try {
       const res = await api.post('/auth/register', form)
-      login({ email: res.data.email, name: res.data.name, plan: res.data.plan }, res.data.token)
+      login({ email: res.data.email, name: res.data.name, plan: res.data.plan, isAdmin: res.data.isAdmin }, res.data.token)
       navigate('/dashboard')
     } catch (err) {
       setError(err.response?.data || 'Registration failed. Try again.')

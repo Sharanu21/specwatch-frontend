@@ -73,7 +73,7 @@ export default function Login() {
     setLoading(true)
     try {
       const res = await api.post('/auth/login', form)
-      login({ email: res.data.email, name: res.data.name, plan: res.data.plan }, res.data.token)
+      login({ email: res.data.email, name: res.data.name, plan: res.data.plan, isAdmin: res.data.isAdmin }, res.data.token)
       navigate('/dashboard')
     } catch (err) {
       const msg = err.response?.data || 'Invalid email or password'

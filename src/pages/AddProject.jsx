@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '../context/ToastContext'
 import api from '../api/axios'
 
 export default function AddProject() {
   const navigate = useNavigate()
+  const toast = useToast()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({
@@ -16,15 +18,20 @@ export default function AddProject() {
     githubToken: '',
   })
 
+  const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }))
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setLoading(true)
     try {
-      await api.post('/projects', form)
-      navigate('/')
+      const res = await api.post('/projects', form)
+      toast.success('Project created! Set up your GitHub webhook below.')
+      navigate(`/projects/${res.data.id}`)
     } catch (err) {
-      setError(err.response?.data || 'Failed to create project')
+      const msg = err.response?.data || 'Failed to create project'
+      setError(msg)
+      toast.error(msg)
     } finally {
       setLoading(false)
     }
@@ -39,7 +46,7 @@ export default function AddProject() {
             Connect a GitHub repo to monitor API changes
           </p>
         </div>
-        <button className="btn-secondary" onClick={() => navigate('/')}>
+        <button className="btn-secondary" onClick={() => navigate('/dashboard')}>
           Cancel
         </button>
       </div>
@@ -54,8 +61,9 @@ export default function AddProject() {
                 type="text"
                 placeholder="My API"
                 value={form.name}
-                onChange={e => setForm({ ...form, name: e.target.value })}
+                onChange={set('name')}
                 required
+                autoFocus
               />
             </div>
 
@@ -65,12 +73,10 @@ export default function AddProject() {
                 type="text"
                 placeholder="username/repo-name"
                 value={form.repoFullName}
-                onChange={e => setForm({ ...form, repoFullName: e.target.value })}
+                onChange={set('repoFullName')}
                 required
               />
-              <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
-                e.g. octocat/hello-world
-              </span>
+              <span>e.g. octocat/hello-world</span>
             </div>
 
             <div className="form-group">
@@ -79,12 +85,10 @@ export default function AddProject() {
                 type="text"
                 placeholder="docs/openapi.yaml"
                 value={form.specFilePath}
-                onChange={e => setForm({ ...form, specFilePath: e.target.value })}
+                onChange={set('specFilePath')}
                 required
               />
-              <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
-                Path to your swagger/openapi YAML or JSON file inside the repo
-              </span>
+              <span>Path to your OpenAPI YAML or JSON file inside the repo</span>
             </div>
 
             <div className="form-group">
@@ -93,14 +97,14 @@ export default function AddProject() {
                 type="text"
                 placeholder="main"
                 value={form.branch}
-                onChange={e => setForm({ ...form, branch: e.target.value })}
+                onChange={set('branch')}
               />
             </div>
 
             <div className="divider" />
 
-            <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: '1rem' }}>
-              Notifications (optional — add at least one)
+            <p style={{ fontSize: '0.83rem', color: 'var(--muted)', marginBottom: '1rem', fontWeight: 500 }}>
+              Notifications <span style={{ fontWeight: 400 }}>(optional)</span>
             </p>
 
             <div className="form-group">
@@ -109,7 +113,7 @@ export default function AddProject() {
                 type="url"
                 placeholder="https://hooks.slack.com/services/..."
                 value={form.slackWebhookUrl}
-                onChange={e => setForm({ ...form, slackWebhookUrl: e.target.value })}
+                onChange={set('slackWebhookUrl')}
               />
             </div>
 
@@ -119,21 +123,19 @@ export default function AddProject() {
                 type="url"
                 placeholder="https://discord.com/api/webhooks/..."
                 value={form.discordWebhookUrl}
-                onChange={e => setForm({ ...form, discordWebhookUrl: e.target.value })}
+                onChange={set('discordWebhookUrl')}
               />
             </div>
 
             <div className="form-group">
-              <label>GitHub Personal Access Token (optional)</label>
+              <label>GitHub Personal Access Token <span style={{ fontWeight: 400 }}>(private repos only)</span></label>
               <input
                 type="password"
                 placeholder="ghp_xxxxxxxxxxxx"
                 value={form.githubToken}
-                onChange={e => setForm({ ...form, githubToken: e.target.value })}
+                onChange={set('githubToken')}
               />
-              <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
-                Required for private repos. Generate at GitHub → Settings → Developer Settings → Personal Access Tokens. Select 'repo' scope only.
-              </span>
+              <span>GitHub → Settings → Developer Settings → Tokens. Select <code style={{ fontFamily: 'monospace', color: 'var(--accent2)' }}>repo</code> scope.</span>
             </div>
 
             {error && <p className="error-msg">{error}</p>}
@@ -141,7 +143,7 @@ export default function AddProject() {
             <button
               type="submit"
               className="btn-primary"
-              style={{ width: '100%', marginTop: '0.5rem' }}
+              style={{ width: '100%', marginTop: '0.25rem' }}
               disabled={loading}
             >
               {loading ? 'Creating...' : 'Create Project →'}
@@ -153,10 +155,10 @@ export default function AddProject() {
           <p style={{ fontSize: '0.82rem', color: 'var(--accent2)', fontWeight: 600, marginBottom: '0.5rem' }}>
             ℹ Next step after creating
           </p>
-          <p style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-            After creating your project, go to GitHub → your repo → Settings → Webhooks → Add webhook.<br />
-            Your unique webhook URL will be shown on the project page — just copy and paste it.<br />
-            Content type: <code style={{ fontFamily: 'monospace' }}>application/json</code> → Events: Push only → Save.
+          <p style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.7 }}>
+            After creating your project, a unique webhook URL will appear on the project page.<br />
+            GitHub → your repo → Settings → Webhooks → Add webhook → paste URL →
+            content type: <code style={{ fontFamily: 'monospace', color: 'var(--accent2)' }}>application/json</code> → Save.
           </p>
         </div>
       </div>

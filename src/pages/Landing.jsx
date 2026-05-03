@@ -31,9 +31,6 @@ export default function Landing() {
       margin: 0,
       padding: 0,
     }}>
-      {/* Google Fonts */}
-      <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
       {/* NAV */}
       <nav style={{
         position: 'fixed',

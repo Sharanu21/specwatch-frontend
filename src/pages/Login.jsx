@@ -158,7 +158,6 @@ export default function Login() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             <OAuthButton provider="github" icon={<GithubIcon />} label="Continue with GitHub" color="#6e7681" />
-            <OAuthButton provider="google" icon={<GoogleIcon />} label="Continue with Google" color="#4285F4" />
           </div>
 
           <div className="divider" />
